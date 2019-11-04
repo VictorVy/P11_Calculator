@@ -1,3 +1,6 @@
+String input;
+int cap;
+
 color black = 0;
 color background = #E8E8E8;
 color textBG = #FAFAFA;
@@ -21,15 +24,41 @@ int row1;
 int row2;
 int row3;
 int row4;
+int row5;
 
 int btnSkinWidthX;
 int btnSkinWidthY;
 
+Button button1;
+Button button2;
+Button button3;
+Button button4;
+Button button5;
+Button button6;
+Button button7;
+Button button8;
+Button button9;
+Button button0;
+
+Button buttonAdd;
+Button buttonMinus;
+Button buttonTimes;
+Button buttonDivide;
+Button buttonPow;
+Button buttonSqrt;
+
+Button buttonDot;
+Button buttonEquals;
+Button buttonClear;
+
 void setup()
 {
-  size(350, 400);
+  size(350, 475);
   background(background);
-
+  
+  input = "";
+  cap = 12;
+  
   textBoxWidth = width - 30;
   textBoxHeight = 50;
   textBoxCorner = 15;
@@ -45,69 +74,70 @@ void setup()
   row2 = row1 + buttonSize + 15;
   row3 = row2 + buttonSize + 15;
   row4 = row3 + buttonSize + 15;
+  row5 = row4 + buttonSize + 15;
   
   btnSkinWidthX = buttonSize / 4 + 2;
   btnSkinWidthY = buttonSize - buttonSize / 4;
+  
+  button1 = new Button(column1, row1, buttonSize, "1");
+  button2 = new Button(column2, row1, buttonSize, "2");
+  button3 = new Button(column3, row1, buttonSize, "3");
+  button4 = new Button(column1, row2, buttonSize, "4");
+  button5 = new Button(column2, row2, buttonSize, "5");
+  button6 = new Button(column3, row2, buttonSize, "6");
+  button7 = new Button(column1, row3, buttonSize, "7");
+  button8 = new Button(column2, row3, buttonSize, "8");
+  button9 = new Button(column3, row3, buttonSize, "9");
+  button0 = new Button(column2, row4, buttonSize, "0");
+  
+  buttonAdd = new Button(column4, row1, buttonSize, "+");
+  buttonMinus = new Button(column4, row2, buttonSize, "-");
+  buttonTimes = new Button(column4, row3, buttonSize, "*");
+  buttonDivide = new Button(column4, row4, buttonSize, "/");
+  buttonPow = new Button(column4, row5, buttonSize, "^");
+  buttonSqrt = new Button(column3, row5, buttonSize, "√");
+  
+  buttonDot = new Button(column1, row4, buttonSize, ".");
+  buttonEquals = new Button(column3, row4, buttonSize, "=");
+  buttonClear = new Button(column1, row5, buttonSize, "c");
 }
 
 void draw()
 {
-  mousePos();
-  
   textBox();
-  buttons();
   
-  println(mousePos);
+  fill(black);
+  text(input, textBoxCorner + 8, textBoxCorner, textBoxWidth, textBoxHeight);
+  
+  mousePos();
+  drawButtons();
 }
 
 void mousePos()
 {
   mousePos = "";
   
-  if(mouseY > row1 && mouseY < row1 + buttonSize)
-  {
-    if(mouseX > column1 && mouseX < column1 + buttonSize)
-      mousePos = "1";
-    else if(mouseX > column2 && mouseX < column2 + buttonSize)
-      mousePos = "2";
-    else if(mouseX > column3 && mouseX < column3 + buttonSize)
-      mousePos = "3";
-    else if(mouseX > column4 && mouseX < column4 + buttonSize)
-      mousePos = "+";
-  }
-  else if(mouseY > row2 && mouseY < row2 + buttonSize)
-  {
-    if(mouseX > column1 && mouseX < column1 + buttonSize)
-      mousePos = "4";
-    else if(mouseX > column2 && mouseX < column2 + buttonSize)
-      mousePos = "5";
-    else if(mouseX > column3 && mouseX < column3 + buttonSize)
-      mousePos = "6";
-    else if(mouseX > column4 && mouseX < column4 + buttonSize)
-      mousePos = "-";
-  }
-  else if(mouseY > row3 && mouseY < row3 + buttonSize)
-  {
-    if(mouseX > column1 && mouseX < column1 + buttonSize)
-      mousePos = "7";
-    else if(mouseX > column2 && mouseX < column2 + buttonSize)
-      mousePos = "8";
-    else if(mouseX > column3 && mouseX < column3 + buttonSize)
-      mousePos = "9";
-    else if(mouseX > column4 && mouseX < column4 + buttonSize)
-      mousePos = "*";
-  }
-  else if(mouseY > row4 && mouseY < row4 + buttonSize)
-  {
-    if(mouseX > column1 && mouseX < column1 + buttonSize)
-      mousePos = ".";
-    else if(mouseX > column2 && mouseX < column2 + buttonSize)
-      mousePos = "0";
-    else if(mouseX > column3 && mouseX < column3 + buttonSize)
-      mousePos = "c";
-    else if(mouseX > column4 && mouseX < column4 + buttonSize)
-      mousePos = "/";
-  }
+  button1.pos();
+  button2.pos();
+  button3.pos();
+  button4.pos();
+  button5.pos();
+  button6.pos();
+  button7.pos();
+  button8.pos();
+  button9.pos();
+  button0.pos();
+  
+  buttonAdd.pos();
+  buttonMinus.pos();
+  buttonTimes.pos();
+  buttonDivide.pos();
+  buttonPow.pos();
+  buttonSqrt.pos();
+  
+  buttonDot.pos();
+  buttonEquals.pos();
+  buttonClear.pos();
 }
 
 void textBox() //draws the text box
@@ -118,75 +148,67 @@ void textBox() //draws the text box
   rect(textBoxCorner, textBoxCorner, textBoxWidth, textBoxHeight);
 }
 
-void buttons() //draws the buttons
+void drawButtons()
 {
-  stroke(black); //buttons
-  strokeWeight(1);
+  button1.drawButton();
+  button2.drawButton();
+  button3.drawButton();
+  button4.drawButton();
+  button5.drawButton();
+  button6.drawButton();
+  button7.drawButton();
+  button8.drawButton();
+  button9.drawButton();
+  button0.drawButton();
   
-  fill(ui); //number buttons
-  button(column1, row1, buttonSize); 
-  fill(ui);
-  button(column2, row1, buttonSize);
-  fill(ui);
-  button(column3, row1, buttonSize);
-  fill(ui);
-  button(column1, row2, buttonSize);
-  fill(ui);
-  button(column2, row2, buttonSize);
-  fill(ui);
-  button(column3, row2, buttonSize);
-  fill(ui);
-  button(column1, row3, buttonSize);
-  fill(ui);
-  button(column2, row3, buttonSize);
-  fill(ui);
-  button(column3, row3, buttonSize);
-  fill(ui);
-  button(column2, row4, buttonSize);
+  buttonAdd.drawButton();
+  buttonMinus.drawButton();
+  buttonTimes.drawButton();
+  buttonDivide.drawButton();
+  buttonPow.drawButton();
+  buttonSqrt.drawButton();
   
-  fill(ui); //operator buttons
-  button(column4, row1, buttonSize);
-  fill(ui);
-  button(column4, row2, buttonSize);
-  fill(ui);
-  button(column4, row3, buttonSize);
-  fill(ui);
-  button(column4, row4, buttonSize);
-  
-  fill(ui); //misc buttons
-  button(column1, row4, buttonSize);
-  fill(ui);
-  button(column3, row4, buttonSize);
-
-  fill(black); //text
-  textSize(40);
-
-  buttonText("1", column1, row1); //number text
-  buttonText("2", column2, row1);
-  buttonText("3", column3, row1);
-  buttonText("4", column1, row2);
-  buttonText("5", column2, row2);
-  buttonText("6", column3, row2);
-  buttonText("7", column1, row3);
-  buttonText("8", column2, row3);
-  buttonText("9", column3, row3);
-  buttonText("0", column2, row4);
-  
-  buttonText("+", column4 - 3, row1); //operator text
-  buttonText("-", column4 + 1, row2);
-  buttonText("*", column4 + 3, row3);
-  buttonText("/", column4 + 3, row4);
-  
-  buttonText(".", column1 + 6, row4);
-  buttonText("c", column3 + 2, row4 - 4);
+  buttonDot.drawButton();
+  buttonEquals.drawButton();
+  buttonClear.drawButton();
 }
 
-void button(int x, int y, int size) //draws button
+class Button
 {
-  rect(x, y, size, size);
-}
-
-void buttonText(String text, int x, int y)
-{
-  text(text, x + btnSkinWidthX, y + btnSkinWidthY);
+  int x;
+  int y;
+  int size;
+  String text;
+  
+  public Button(int x, int y, int size, String text)
+  {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.text = text;
+  }
+  
+  void drawButton()
+  {
+    stroke(black);
+    strokeWeight(1);
+    
+    if(mousePos == text)
+      fill(uiDark);
+    else
+      fill(ui);
+    
+    rect(x, y, size, size);
+    
+    fill(black); //text
+    textSize(40);
+    
+    text(text, x + btnSkinWidthX, y + btnSkinWidthY);
+  }
+  
+  void pos()
+  {
+    if((mouseX > x && mouseX < x + buttonSize) && (mouseY > y && mouseY < y + buttonSize))
+      mousePos = text;
+  }
 }
