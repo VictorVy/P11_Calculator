@@ -1,6 +1,9 @@
 String input;
 int cap;
 
+char[] operators = {'+', '-', '*', '/', '^', '√'};
+char operator;
+
 color black = 0;
 color background = #E8E8E8;
 color textBG = #FAFAFA;
@@ -113,6 +116,41 @@ void draw()
   drawButtons();
 }
 
+void mouseReleased()
+{
+  updateInput();
+}
+
+void clearInput()
+{
+  input = "";
+}
+
+void updateInput()
+{
+  button1.updateInput();
+  button2.updateInput();
+  button3.updateInput();
+  button4.updateInput();
+  button5.updateInput();
+  button6.updateInput();
+  button7.updateInput();
+  button8.updateInput();
+  button9.updateInput();
+  button0.updateInput();
+  
+  buttonAdd.updateInput();
+  buttonMinus.updateInput();
+  buttonTimes.updateInput();
+  buttonDivide.updateInput();
+  buttonPow.updateInput();
+  buttonSqrt.updateInput();
+  
+  buttonDot.updateInput();
+  buttonEquals.updateInput();
+  buttonClear.updateInput();
+}
+
 void mousePos()
 {
   mousePos = "";
@@ -173,6 +211,17 @@ void drawButtons()
   buttonClear.drawButton();
 }
 
+void solve()
+{
+  for(String k : operators.toString())
+  {
+    if(input.contains(k));
+    {
+      
+    }
+  }
+}
+
 class Button
 {
   int x;
@@ -210,5 +259,18 @@ class Button
   {
     if((mouseX > x && mouseX < x + buttonSize) && (mouseY > y && mouseY < y + buttonSize))
       mousePos = text;
+  }
+  
+  void updateInput()
+  {
+    if(mousePos == text)
+    {
+      if(text != "c" && text != "=" && text != "√")
+        input = input.concat(text);
+      else if(text == "c")
+        clearInput();
+      else if(text == "=")
+        solve();
+    }
   }
 }
