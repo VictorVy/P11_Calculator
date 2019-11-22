@@ -4,6 +4,8 @@ int cap;
 char[] operators = {'+', '-', '*', '/', '^', '√'};
 char operator;
 
+double x, y, result;
+
 color black = 0;
 color background = #E8E8E8;
 color textBG = #FAFAFA;
@@ -110,7 +112,7 @@ void draw()
   textBox();
   
   fill(black);
-  text(input, textBoxCorner + 8, textBoxCorner, textBoxWidth, textBoxHeight);
+  text(input, textBoxCorner + 2, textBoxCorner, textBoxWidth, textBoxHeight);
   
   mousePos();
   drawButtons();
@@ -124,6 +126,12 @@ void mouseReleased()
 void clearInput()
 {
   input = "";
+}
+
+void replaceInput(String k)
+{
+  clearInput();
+  input = k;
 }
 
 void updateInput()
@@ -211,15 +219,49 @@ void drawButtons()
   buttonClear.drawButton();
 }
 
-void solve()
+void getOperator()
 {
-  for(String k : operators.toString())
+  for(char k : operators)
   {
-    if(input.contains(k));
+    if(input.contains(k + ""))
     {
-      
+      operator = k;
+      break;
     }
   }
+}
+
+void getXY()
+{
+  x = parseFloat(input.substring(0, input.indexOf(operator)));
+  y = parseFloat(input.substring(input.indexOf(operator) + 1, input.length()));
+}
+
+void solve()
+{
+  getOperator();
+  getXY();
+  
+  switch(operator)
+  {
+    case '+':
+      result = x + y;
+      break;
+    case '-':
+      result = x - y;
+      break;
+    case '*':
+      result = x * y;
+      break;
+    case '/':
+      result = x / y;
+      break;
+    case '^':
+      result = Math.pow(x, y);
+      break;
+  }
+  
+  replaceInput(Double.toString(result));
 }
 
 class Button
@@ -271,6 +313,13 @@ class Button
         clearInput();
       else if(text == "=")
         solve();
+      else if(text == "√")
+      {
+        getOperator();
+        
+        result = sqrt(Float.parseFloat(input));
+        replaceInput(Double.toString(result));
+      }  
     }
   }
 }
