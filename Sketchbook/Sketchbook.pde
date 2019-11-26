@@ -1,3 +1,13 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
+Minim minim;
+AudioPlayer buttonSFX;
+
 String input;
 int cap;
 
@@ -5,6 +15,7 @@ char[] operators = {'+', '-', '*', '/', '^', '√'};
 char operator = ' ';
 char op2 = ' ';
 char op3 = ' ';
+char errorOp = ' ';
 
 double x, y, result;
 
@@ -62,6 +73,9 @@ void setup()
 {
   size(350, 475);
   background(background);
+  
+  minim = new Minim(this);
+  buttonSFX = minim.loadFile("click.wav");
   
   input = "";
   cap = 12;
@@ -229,12 +243,23 @@ void getOperator()
     {
       if(i == k)
       {
-        operator = k;
-        break;
+        operator = i;
+        
+        //if(operator == ' ')
+        //  operator = i;
+        //else if(op2 == ' ')
+        //  op2 = i;
+        //else if(op3 == ' ')
+        //  op3 = i;
+        //else if(errorOp == ' ')
+        //{
+        //  errorOp = i;
+        //  replaceInput("Syntax Error");
+        //}
       }
     }
   }
-  println(operator, op2, op3);
+  println(operator, op2, op3, errorOp);
 }
 
 void getXY()
@@ -311,6 +336,9 @@ class Button
   
   void updateInput()
   {
+    buttonSFX.rewind();
+    buttonSFX.play();
+    
     if(mousePos == text)
     {
       if(text != "c" && text != "=" && text != "√")
