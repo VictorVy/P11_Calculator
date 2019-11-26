@@ -2,7 +2,9 @@ String input;
 int cap;
 
 char[] operators = {'+', '-', '*', '/', '^', '√'};
-char operator;
+char operator = ' ';
+char op2 = ' ';
+char op3 = ' ';
 
 double x, y, result;
 
@@ -221,14 +223,18 @@ void drawButtons()
 
 void getOperator()
 {
-  for(char k : operators)
+  for(char k : input.toCharArray())
   {
-    if(input.contains(k + ""))
+    for(char i : operators)
     {
-      operator = k;
-      break;
+      if(i == k)
+      {
+        operator = k;
+        break;
+      }
     }
   }
+  println(operator, op2, op3);
 }
 
 void getXY()
