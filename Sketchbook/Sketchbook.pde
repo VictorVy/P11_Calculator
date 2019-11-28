@@ -5,6 +5,8 @@ import ddf.minim.signals.*;
 import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
 
+import java.util.Arrays;
+
 Minim minim;
 AudioPlayer buttonSFX;
 
@@ -17,7 +19,8 @@ char op2 = ' ';
 char op3 = ' ';
 char errorOp = ' ';
 
-double x, y, result;
+double x, y;
+String result;
 
 color black = 0;
 color background = #E8E8E8;
@@ -244,18 +247,6 @@ void getOperator()
       if(i == k)
       {
         operator = i;
-        
-        //if(operator == ' ')
-        //  operator = i;
-        //else if(op2 == ' ')
-        //  op2 = i;
-        //else if(op3 == ' ')
-        //  op3 = i;
-        //else if(errorOp == ' ')
-        //{
-        //  errorOp = i;
-        //  replaceInput("Syntax Error");
-        //}
       }
     }
   }
@@ -276,23 +267,35 @@ void solve()
   switch(operator)
   {
     case '+':
-      result = x + y;
+      result = x + y + "";
       break;
     case '-':
-      result = x - y;
+      result = x - y + "";
       break;
     case '*':
-      result = x * y;
+      result = x * y + "";
       break;
     case '/':
-      result = x / y;
+      result = x / y + "";
       break;
     case '^':
-      result = Math.pow(x, y);
+      result = Math.pow(x, y) + "";
       break;
   }
   
-  replaceInput(Double.toString(result));
+  if((result + "").toCharArray()[(result + "").toCharArray().length - 2] == '.' && (result + "").toCharArray()[(result + "").toCharArray().length - 1] == '0')
+  {
+    char[] sub = new char[(result + "").toCharArray().length - 2];
+    
+    for(int i = 0; i < sub.length; i++)
+    {
+      sub[i] = (result + "").toCharArray()[i];
+    }
+    
+    result = Arrays.toString(sub).replace("[", "").replace("]", "");
+  }
+  
+  replaceInput(result);
 }
 
 class Button
@@ -336,11 +339,11 @@ class Button
   
   void updateInput()
   {
-    buttonSFX.rewind();
-    buttonSFX.play();
-    
     if(mousePos == text)
     {
+      buttonSFX.rewind();
+      buttonSFX.play();
+      
       if(text != "c" && text != "=" && text != "√")
         input = input.concat(text);
       else if(text == "c")
@@ -351,8 +354,8 @@ class Button
       {
         getOperator();
         
-        result = sqrt(Float.parseFloat(input));
-        replaceInput(Double.toString(result));
+        result = sqrt(Float.parseFloat(input)) + "";
+        replaceInput(result);
       }  
     }
   }
